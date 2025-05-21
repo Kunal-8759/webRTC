@@ -10,6 +10,7 @@ const Room = () => {
     useEffect(() => {
         // Emitting this event so that the server knows someone joined the room
        if(user){
+        // console.log("New user with id : ", user, " joined room : ", roomId);
          socket.emit("joined-room", { roomId , userId: user });
        }
     }, [roomId,user,socket]);
