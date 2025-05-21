@@ -13,7 +13,15 @@ const CreateRoom = () => {
     return (
         <button 
             onClick={initRoom}
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-lg btn-block"
+            style={{
+                backgroundColor: "#4A90E2",
+                color: "white",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                fontSize: "16px",
+                cursor: "pointer"
+            }} 
         >
             Start a new meeting in a new room
         </button>

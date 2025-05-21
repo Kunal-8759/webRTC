@@ -4,18 +4,22 @@ import { SocketContext } from "../context/SocketContext";
 
 const Room = () => {
 
-    const { id } = useParams();
-    const { socket } = useContext(SocketContext);
+    const { id:roomId } = useParams();
+    const { socket , user} = useContext(SocketContext);
 
     useEffect(() => {
         // Emitting this event so that the server knows someone joined the room
-        socket.emit("joined-room", { roomId: id });
-    }, []);
+       if(user){
+         socket.emit("joined-room", { roomId , userId: user });
+       }
+    }, [roomId,user,socket]);
 
     return (
         <div>
-            room : {id}
+            <p>room : {roomId} </p>
+            <p>user : {user} </p>
         </div>
+        
     );
 };
 

@@ -9,8 +9,9 @@ const roomHandler = (socket) => {
         console.log("Room created with id", roomId);
     };
 
-    const joinedRoom = ({ roomId }) => {
-        console.log("New user has joined room", roomId);
+    const joinedRoom = ({ roomId ,userId }) => {
+        console.log("New user has joined room", roomId ,"with userId " ,userId);
+        socket.join(roomId); // Add the socket to the room
     };
 
     // Listen for events from the client
