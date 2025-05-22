@@ -1,11 +1,12 @@
 import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { SocketContext } from "../context/SocketContext";
+import UserFeedPlayer from "../Components/UserFeedPlayer";
 
 const Room = () => {
 
-    const { id:roomId } = useParams();
-    const { socket , user} = useContext(SocketContext);
+    const { roomId } = useParams();
+    const { socket , user , stream} = useContext(SocketContext);
 
     useEffect(() => {
         // Emitting this event so that the server knows someone joined the room
@@ -19,6 +20,7 @@ const Room = () => {
         <div>
             <p>room : {roomId} </p>
             <p>user : {user} </p>
+            <UserFeedPlayer stream={stream} />
         </div>
         
     );

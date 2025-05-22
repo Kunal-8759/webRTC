@@ -4,7 +4,7 @@
 
 import SocketIoClient from "socket.io-client";
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { v4 as uuidV4 } from "uuid"; 
 
 
@@ -20,17 +20,27 @@ const socket = SocketIoClient(WS_Server, {
 
 export const SocketProvider = ({ children }) => {
 
-	const [user,setUser] = useState(null); 
+    // const navigate = useNavigate(); // Used to programmatically handle navigation
 
-    const navigate = useNavigate(); // Used to programmatically handle navigation
+	const [user,setUser] = useState(null);
+    const [stream, setStream] = useState();
+
+    const fetchUserFeed = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true});
+        setStream(stream);
+    } 
+
 
     useEffect(() => {
 
 		const userID = uuidV4(); // Generate a unique user ID
 		setUser(userID); // Set the user ID in state
 
+        fetchUserFeed();
+
         const enterRoom = ({ roomId }) => {
-            navigate(`/room/${roomId}`); 
+            window.open(`${window.location.origin}/room/${roomId}`, '_blank');
+            // navigate(`/room/${roomId}`); 
         };
 
         // Listen for the "room-created" event from the server
@@ -38,7 +48,7 @@ export const SocketProvider = ({ children }) => {
     }, []);
 
     return (
-        <SocketContext.Provider value={{ socket, user }}>
+        <SocketContext.Provider value={{ socket, user , stream }}>
             {children}
         </SocketContext.Provider>
     );
