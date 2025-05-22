@@ -24,6 +24,7 @@ export const SocketProvider = ({ children }) => {
 
 	const [user,setUser] = useState(null);
     const [stream, setStream] = useState();
+    const [isPresenter, setIsPresenter] = useState(false);
 
     const fetchUserFeed = async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true});
@@ -36,9 +37,10 @@ export const SocketProvider = ({ children }) => {
 		const userID = uuidV4(); // Generate a unique user ID
 		setUser(userID); // Set the user ID in state
 
-        fetchUserFeed();
 
         const enterRoom = ({ roomId }) => {
+            setIsPresenter(true); // Set the user as presenter
+            fetchUserFeed(); // Fetch the user feed when entering the room
             window.open(`${window.location.origin}/room/${roomId}`, '_blank');
             // navigate(`/room/${roomId}`); 
         };
@@ -48,7 +50,7 @@ export const SocketProvider = ({ children }) => {
     }, []);
 
     return (
-        <SocketContext.Provider value={{ socket, user , stream }}>
+        <SocketContext.Provider value={{ socket, user , stream , isPresenter}}>
             {children}
         </SocketContext.Provider>
     );
